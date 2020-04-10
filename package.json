@@ -23,6 +23,7 @@
         "normalize.css": "^8.0.1"
     },
     "dependencies": {
+        "gulp-uglify": "^3.0.2",
         "virtual-scroll": "^1.5.2"
     }
 }

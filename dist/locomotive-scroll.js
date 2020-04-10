@@ -107,6 +107,19 @@
     return _setPrototypeOf(o, p);
   }
 
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -121,6 +134,23 @@
     }
 
     return _assertThisInitialized(self);
+  }
+
+  function _createSuper(Derived) {
+    return function () {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (_isNativeReflectConstruct()) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
   }
 
   function _superPropBase(object, property) {
@@ -428,6 +458,8 @@
   var _default$1 = /*#__PURE__*/function (_Core) {
     _inherits(_default, _Core);
 
+    var _super = _createSuper(_default);
+
     function _default() {
       var _this;
 
@@ -435,7 +467,7 @@
 
       _classCallCheck(this, _default);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(_default).call(this, options));
+      _this = _super.call(this, options);
       window.addEventListener('scroll', _this.checkScroll, false);
       return _this;
     }
@@ -1204,6 +1236,8 @@
   var _default$2 = /*#__PURE__*/function (_Core) {
     _inherits(_default, _Core);
 
+    var _super = _createSuper(_default);
+
     function _default() {
       var _this;
 
@@ -1211,7 +1245,7 @@
 
       _classCallCheck(this, _default);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(_default).call(this, options));
+      _this = _super.call(this, options);
       _this.inertia = _this.inertia * 0.1;
       _this.isScrolling = false;
       _this.isDraggingScrollbar = false;
